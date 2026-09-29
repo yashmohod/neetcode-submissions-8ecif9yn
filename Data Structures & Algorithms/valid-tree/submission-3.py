@@ -1,0 +1,25 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        if len(edges) == 1:
+            r,l = edges[0]
+            return r!=l
+        aj = {i:[] for i in range(n)}
+
+        for x,y in edges:
+            aj[x].append(y)
+            aj[y].append(x)
+
+        rs= set()
+            
+        cyc = False
+        def dfs(c,v):
+            rs.add(c)
+            for i in aj[c]:
+                if i!= v:
+                    if i in rs : 
+                        cyc = True
+                        return 
+                    else:
+                        dfs(i,c)
+        dfs(0,-1)
+        return len(rs) == n and not cyc
